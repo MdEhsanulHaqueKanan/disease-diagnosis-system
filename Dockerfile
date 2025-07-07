@@ -1,7 +1,7 @@
 # --- Stage 1: Define the base image ---
 # Use an official, slim Python image. 'slim' versions are smaller, leading to a smaller final image size.
 # Pinning the version (e.g., 3.9) is a best practice for reproducibility.
-FROM python:3.9-slim
+FROM python:3.11-slim
 
 # --- Stage 2: Set up the working environment ---
 # Set the working directory inside the container. All subsequent commands run from here.
