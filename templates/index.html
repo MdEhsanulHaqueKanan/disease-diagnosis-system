@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Checker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Symptom Checker</h1>
+            <p class="subtitle">An NLP-Powered Disease Diagnosis System</p>
+        </header>
+
+        <main>
+            <form id="symptom-form">
+                <p>Describe your symptoms in the box below.</p>
+                <textarea id="symptom-input" placeholder="e.g., I have a high fever, a sore throat, and feel very tired..." rows="4" aria-label="Symptom Input"></textarea>
+                <p id="input-error" class="error-message hidden"></p>
+
+                <button type="submit" id="analyze-button">Analyze Symptoms</button>
+            </form>
+            
+            <div id="results-container" class="hidden">
+                <h2>Potential Matches</h2>
+                <div id="results-list"></div>
+            </div>
+            
+            <div id="loader" class="hidden">
+                <div class="spinner"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>A portfolio project by Md. Ehsanul Haque Kanan. <a href="https://github.com/MdEhsanulHaqueKanan/disease-diagnosis-system" target="_blank" rel="noopener noreferrer">View on GitHub</a></p>
+            <p class="disclaimer"><strong>Disclaimer:</strong> This tool is for informational purposes only and is not a substitute for professional medical advice.</p>
+        </footer>
+    </div>
+
+    <template id="result-card-template">
+        <div class="result-card">
+            <div class="card-header">
+                <h3 class="disease-name"></h3>
+                <span class="similarity-score"></span>
+            </div>
+            <div class="card-body">
+                <p><strong>Common Symptoms:</strong> <span class="symptoms"></span></p>
+                <p><strong>Common Treatments:</strong> <span class="treatments"></span></p>
+            </div>
+            <div class="card-footer">
+                <span class="tag chronic"></span>
+                <span class="tag contagious"></span>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // --- DOM Element Selection ---
+        const form = document.getElementById('symptom-form');
+        const input = document.getElementById('symptom-input');
+        const analyzeButton = document.getElementById('analyze-button');
+        const resultsContainer = document.getElementById('results-container');
+        const resultsList = document.getElementById('results-list');
+        const loader = document.getElementById('loader');
+        const cardTemplate = document.getElementById('result-card-template');
+        const inputError = document.getElementById('input-error'); // New error element
+
+        // --- Event Listener ---
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+            
+            const symptoms = input.value.trim();
+            if (!symptoms) {
+                inputError.textContent = 'Please enter your symptoms before analyzing.';
+                inputError.classList.remove('hidden');
+                return;
+            }
+
+            // --- UI State Management: Loading ---
+            inputError.classList.add('hidden'); 
+            loader.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+            resultsList.innerHTML = '';
+            analyzeButton.disabled = true;
+            analyzeButton.textContent = 'Analyzing...';
+
+            // --- API Call and Error Handling ---
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ symptoms: symptoms })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok. Status: ${response.status}`);
+                }
+
+                const predictions = await response.json();
+                displayResults(predictions);
+
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                resultsList.innerHTML = `<p class="error-message">An unexpected error occurred. Please check the console or try again later.</p>`;
+            } finally {
+                // --- UI State Management: Reset ---
+                // This 'finally' block ensures the UI is always reset correctly.
+                loader.classList.add('hidden');
+                if (resultsList.innerHTML) {
+                    resultsContainer.classList.remove('hidden');
+                }
+                analyzeButton.disabled = false;
+                analyzeButton.textContent = 'Analyze Symptoms';
+            }
+        });
+
+        // --- DOM Manipulation ---
+        function displayResults(predictions) {
+            if (predictions.length === 0) {
+                resultsList.innerHTML = '<p>No potential matches found. Try describing your symptoms differently.</p>';
+                return;
+            }
+
+            predictions.forEach(disease => {
+                const card = cardTemplate.content.cloneNode(true);
+                
+                // Populate the card with data from the API
+                card.querySelector('.disease-name').textContent = disease.Name;
+                card.querySelector('.similarity-score').textContent = `${(disease.Similarity * 100).toFixed(0)}% Match`;
+                card.querySelector('.symptoms').textContent = disease.Symptoms;
+                card.querySelector('.treatments').textContent = disease.Treatments;
+
+                const chronicTag = card.querySelector('.tag.chronic');
+                chronicTag.textContent = disease.Chronic ? 'Chronic' : 'Not Chronic';
+                
+                chronicTag.classList.toggle('is-alert', disease.Chronic);
+
+                const contagiousTag = card.querySelector('.tag.contagious');
+                contagiousTag.textContent = disease.Contagious ? 'Contagious' : 'Not Contagious';
+
+                contagiousTag.classList.toggle('is-alert', disease.Contagious);
+                
+                resultsList.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
