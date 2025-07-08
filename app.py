@@ -29,7 +29,11 @@ try:
 
     # New Line Added
     # We are using a smaller model to fit within Render's free tier memory limits.
-    model = SentenceTransformer('all-MiniLM-L12-v1') # A slightly different, but still good model
+    # model = SentenceTransformer('all-MiniLM-L12-v1') # A slightly different, but still good model
+
+    # New Line Added
+    # We are using a smaller model to fit within Render's free tier memory limits.
+    model = SentenceTransformer('paraphrase-MiniLM-L3-v2')
     
     print("✅ Model artifacts loaded successfully!")
 
