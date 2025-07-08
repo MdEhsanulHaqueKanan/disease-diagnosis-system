@@ -29,4 +29,4 @@ COPY . .
 # - "app:app": Tells Gunicorn to run the 'app' variable from the 'app.py' file.
 # - "--bind 0.0.0.0:10000": Binds the server to all network interfaces on port 10000.
 #   Render will automatically map its public URL to this internal port.
-CMD ["gunicorn", "--bind", "0.0.0.0:10000", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:10000", "--timeout", "120", "app:app"]

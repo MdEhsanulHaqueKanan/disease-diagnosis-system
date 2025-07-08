@@ -77,6 +77,10 @@ def home():
     """
     return render_template('index.html')
 
+@app.route('/healthz')
+def health_check():
+    """A simple health check endpoint for Render."""
+    return "OK", 200
 @app.route('/predict', methods=['POST'])
 def predict():
     """
