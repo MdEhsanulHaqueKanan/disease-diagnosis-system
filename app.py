@@ -25,7 +25,11 @@ try:
     symptom_embeddings = np.load(os.path.join(MODEL_DIR, 'symptom_embeddings.npy'))
     
     # Load the Sentence Transformer model
-    model = SentenceTransformer('all-MiniLM-L6-v2')
+    # model = SentenceTransformer('all-MiniLM-L6-v2')
+
+    # New Line Added
+    # We are using a smaller model to fit within Render's free tier memory limits.
+    model = SentenceTransformer('all-MiniLM-L12-v1') # A slightly different, but still good model
     
     print("✅ Model artifacts loaded successfully!")
 
