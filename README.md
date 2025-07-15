@@ -25,6 +25,20 @@ The entire application is built with a production-ready mindset, separating the 
 
 ---
 
+## 🏆 Key Results & Achievements
+
+This project demonstrates a full range of MLOps skills, from development to deployment and production optimization, yielding several key engineering outcomes:
+
+*   **Production Optimization:** Reduced the core model's memory footprint by **~75%** (from `90MB` to `22MB`) to successfully deploy the application on a resource-constrained **512MB RAM** cloud server, solving a critical "Out of Memory" failure.
+
+*   **Cost-Effective Deployment:** Engineered the application to operate entirely on a **100% cost-free infrastructure** (Render's free tier), proving the ability to deliver value without incurring cloud costs.
+
+*   **High-Performance API:** Achieved **sub-second API response times** for real-time predictions by implementing a 2-phase pipeline that pre-loads all model artifacts at application startup.
+
+*   **End-to-End Containerization:** Designed a multi-stage `Dockerfile` to create a lightweight, portable, and reproducible image of the application, a core practice for modern DevOps and MLOps.
+
+---
+
 ## ✨ Key Features
 
 *   **Semantic Symptom Search:** Utilizes a memory-efficient Sentence-Transformer model (`paraphrase-MiniLM-L3-v2`) to understand the *meaning* of user input, not just keywords.
