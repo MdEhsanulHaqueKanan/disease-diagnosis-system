@@ -1,40 +1,51 @@
-# NLP-Powered Disease Diagnosis System
+# NLP-Powered Disease Diagnosis System (Original Monolithic Version)
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue?style=for-the-badge&logo=python)
 ![Flask](https://img.shields.io/badge/Flask-3.0+-black?style=for-the-badge&logo=flask)
 ![Docker](https://img.shields.io/badge/Docker-20.10+-blue?style=for-the-badge&logo=docker)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white)
 
+---
+
+## 🚀 Project Evolution: Now a Decoupled Full-Stack Application!
+
+**This repository represents the original, monolithic version of the project. It has since been refactored into a modern, decoupled full-stack system with a separate React frontend and a containerized Flask API.**
+
+This new architecture demonstrates a more scalable and professional approach to MLOps and web development.
+
+### ► View the New Live Application
+
+**[► Live Demo on Vercel](https://symptom-checker-frontend-ten.vercel.app/)**
+
+## 📸 Live Application Preview
+
+![Application Screenshot of the Symptom Checker UI](/screenshots/sypmtom_checker.png)
+
+### ► Explore the New Repositories
+
+*   **[📂 Frontend Source Code (React + TypeScript)](https://github.com/MdEhsanulHaqueKanan/symptom-checker-frontend)**
+*   **[📂 API Source Code (Flask + Docker)](https://github.com/MdEhsanulHaqueKanan/disease-diagnosis-api)**
+
+---
+
+
+## About This Original Project
 
 This project is an end-to-end web application that leverages Natural Language Processing to assist users in identifying potential diseases based on their described symptoms. It uses a state-of-the-art Sentence-Transformer model to understand the semantic meaning of symptoms, providing more accurate and context-aware results than simple keyword matching.
 
 The entire application is built with a production-ready mindset, separating the data science development (in a Jupyter Notebook) from the deployed Flask application, ensuring efficiency and maintainability.
 
----
+## 📸 Original Application Preview
 
-## ► Live Demo
-
-**[► View Live Demo](https://disease-diagnosis-system.onrender.com)**  
-*(Note: As this is hosted on a free tier, the first load may take up to 50 seconds while the service spins up from sleep.)*
-
----
-
-## 📸 Application Preview
-
-![App Demo Screenshot](./app_ss_1.png)
-
----
+![App Demo Screenshot](/screenshots/app_ss_1.png)
 
 ## 🏆 Key Results & Achievements
 
 This project demonstrates a full range of MLOps skills, from development to deployment and production optimization, yielding several key engineering outcomes:
 
 *   **Production Optimization:** Reduced the core model's memory footprint by **~75%** (from `90MB` to `22MB`) to successfully deploy the application on a resource-constrained **512MB RAM** cloud server, solving a critical "Out of Memory" failure.
-
 *   **Cost-Effective Deployment:** Engineered the application to operate entirely on a **100% cost-free infrastructure** (Render's free tier), proving the ability to deliver value without incurring cloud costs.
-
 *   **High-Performance API:** Achieved **sub-second API response times** for real-time predictions by implementing a 2-phase pipeline that pre-loads all model artifacts at application startup.
-
 *   **End-to-End Containerization:** Designed a multi-stage `Dockerfile` to create a lightweight, portable, and reproducible image of the application, a core practice for modern DevOps and MLOps.
 
 ---
@@ -95,6 +106,7 @@ disease_diagnosis_app/
 └── requirements.txt
 ```
 
+
 ### **The "Two-Phase" Philosophy**
 1.  **Phase 1 (Development - The Notebook):** The `notebook/data_exploration_and_modeling.ipynb` notebook is used for all heavy-lifting. It handles data loading, cleaning, EDA, and the computationally expensive process of generating embeddings. Its final output is the lightweight, ready-to-use **model artifacts**.
 2.  **Phase 2 (Production - The Flask App):** The `app.py` is a lightweight server. It does **not** re-run any data science processes. It simply loads the pre-computed artifacts from `model_artifacts/` once at startup and uses them to serve predictions quickly. This separation is a core MLOps principle.
@@ -149,4 +161,3 @@ To run this application on your local machine, follow these steps:
 
 5.  **Access the Application**
     Open your web browser and navigate to `http://127.0.0.1:5000`.
-
