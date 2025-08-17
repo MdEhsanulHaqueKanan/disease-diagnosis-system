@@ -17,7 +17,7 @@ This new architecture demonstrates a more scalable and professional approach to 
 
 **[► Live Demo on Vercel](https://symptom-checker-frontend-ten.vercel.app/)**
 
-## 📸 Live Application Preview
+### 📸 Live Application Preview
 
 ![Application Screenshot of the Symptom Checker UI](/screenshots/sypmtom_checker.png)
 
